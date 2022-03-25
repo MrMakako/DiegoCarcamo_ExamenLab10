@@ -5,6 +5,7 @@
 package lab10examen;
 
 import Objetos.Cientifico;
+import Objetos.Gaseoso;
 import Objetos.Planeta;
 import Objetos.Terrestre;
 import java.awt.List;
@@ -408,6 +409,43 @@ public class Aplicacion extends javax.swing.JFrame {
             
             while(ImpactBar.getValue()<ImpactBar.getMaximum()){
                 ImpactBar.setValue(ImpactBar.getValue()+1);
+            
+            
+            }
+            
+            
+            if(Planeta1c.getProbabilidad()){
+            
+                System.out.println("Se creo un nuevo planeta");
+                String nombrePlaneta="";
+                
+                
+                double x=(Planeta1c.getX()+Planeta2c.getX())/2;
+                double y=(Planeta1c.getY()+Planeta2c.getY())/2;
+                
+                double Peso=(Planeta1c.getPeso()+Planeta2c.getPeso())/2;
+                
+                double size=(Planeta2c.getSize()+Planeta1c.getSize())/2;
+                
+                
+                
+                if(Planeta1c instanceof Terrestre){
+                     SelectedCTF.AddPlaneta(new Terrestre(nombrePlaneta, size, Peso, x, y));
+                
+                
+                }else{
+                     SelectedCTF.AddPlaneta(new Gaseoso(nombrePlaneta, size, Peso, x, y));
+                
+                
+                }
+                
+               
+                
+                
+            
+            }else{
+            
+                System.out.println("No se formo un nuevo planeta");
             
             
             }
