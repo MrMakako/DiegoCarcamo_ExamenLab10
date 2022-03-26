@@ -8,9 +8,13 @@ import Objetos.Cientifico;
 import Objetos.Gaseoso;
 import Objetos.Planeta;
 import Objetos.Terrestre;
+import java.awt.Color;
 import java.awt.List;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
@@ -18,6 +22,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -155,6 +162,10 @@ public class Aplicacion extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         LabelDist = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        ImpactTime = new javax.swing.JLabel();
+        FuerzaBar = new javax.swing.JProgressBar();
+        jLabel3 = new javax.swing.JLabel();
 
         Planeta1.setText("Planeta1");
         Planeta1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -181,6 +192,7 @@ public class Aplicacion extends javax.swing.JFrame {
 
         ImpactBar.setForeground(new java.awt.Color(51, 255, 102));
 
+        ArbolPlaneta.setForeground(new java.awt.Color(204, 204, 204));
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
         ArbolPlaneta.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         ArbolPlaneta.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -255,6 +267,11 @@ public class Aplicacion extends javax.swing.JFrame {
 
         jLabel1.setText("Distancia");
 
+        jLabel2.setText("Tiempo de impacto:");
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pngwing.com.png"))); // NOI18N
+        jLabel3.setText("jLabel3");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -263,38 +280,55 @@ public class Aplicacion extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(PublicBtn)
-                            .addComponent(ImpactBar, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(50, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(37, 37, 37)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(NameField, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(CajaCientificos, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(SelecteP1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
                                     .addComponent(SelectedP2, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(31, 31, 31)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(LabelDist, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(31, 31, 31)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(LabelDist, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(40, 40, 40)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(ImpactTime, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addContainerGap())
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(83, 83, 83))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(NameField, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(CajaCientificos, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(FuerzaBar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 485, Short.MAX_VALUE)
+                            .addComponent(PublicBtn, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ImpactBar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(ImpactBar, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addComponent(FuerzaBar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(ImpactBar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 6, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -302,7 +336,10 @@ public class Aplicacion extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(LabelDist, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(SelectedP2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(SelectedP2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(ImpactTime, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(31, 31, 31)
                         .addComponent(CajaCientificos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23)
@@ -310,8 +347,10 @@ public class Aplicacion extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(NameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jLabel3))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 344, Short.MAX_VALUE)
                 .addComponent(PublicBtn)
                 .addGap(20, 20, 20))
         );
@@ -420,6 +459,8 @@ public class Aplicacion extends javax.swing.JFrame {
         colide.start();
         
         
+       
+        
         
         
         
@@ -427,6 +468,57 @@ public class Aplicacion extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    
+    
+    
+    
+    public void Caclulos(double dist, long time,double masa){
+       
+        
+        
+        double velocidad= Math.pow((dist/time),2);
+        
+        double e= (masa*velocidad)/2;
+        
+        
+        Random r= new Random();
+         FuerzaBar.setMaximum((int) (r.nextInt((int) (2*e))+e));
+         
+         
+         
+         FuerzaBar.setValue((int) e);
+         
+         double percent=FuerzaBar.getPercentComplete();
+         if(percent>0.0&& percent<=0.5){
+             FuerzaBar.setForeground(Color.GREEN);
+             
+             
+         }else if (percent>0.5 && percent<=0.75){
+             FuerzaBar.setForeground(Color.YELLOW);
+             
+             
+         
+         }else if (percent>0.75&& percent<0.9) {
+             FuerzaBar.setForeground(Color.RED);
+         }else{
+             FuerzaBar.setForeground(Color.BLUE);
+         
+         }
+         
+         
+         
+         
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    }
     private void CajaCientificosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CajaCientificosActionPerformed
         // TODO add your handling code here:
        
@@ -489,7 +581,7 @@ public class Aplicacion extends javax.swing.JFrame {
     
     class Colision extends Thread{
         public void run(){
-            
+            ImpactTime.setText("0");
             boolean crear=false;
             ImpactBar.setValue(0);
             
@@ -518,7 +610,9 @@ public class Aplicacion extends javax.swing.JFrame {
             
             ImpactBar.setMaximum(dist);
             System.out.println(ImpactBar.getMaximum());
-          
+            Calendar time=Calendar.getInstance();
+            long milis= time.get(Calendar.MILLISECOND) ;
+            
             
             while(ImpactBar.getValue()<ImpactBar.getMaximum()){
                   try {
@@ -531,7 +625,15 @@ public class Aplicacion extends javax.swing.JFrame {
             
             }
             
+            time= Calendar.getInstance();
             
+            long result=time.get(Calendar.MILLISECOND)-milis;
+            ImpactTime.setText(result+"");
+            
+            
+            
+            
+             Caclulos(dist, result, (Planeta1c.getPeso()+Planeta2c.getPeso()));
             if(Planeta1c.getProbabilidad()){
             
                 System.out.println("Se creo un nuevo planeta");
@@ -550,9 +652,10 @@ public class Aplicacion extends javax.swing.JFrame {
                     
                     }
                     
-                    
                 
                 }
+                
+               
                 
                 double x=(Planeta1c.getX()+Planeta2c.getX())/2;
                 double y=(Planeta1c.getY()+Planeta2c.getY())/2;
@@ -640,6 +743,12 @@ public class Aplicacion extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                
+                  try {
+            UIManager.setLookAndFeel(new MetalLookAndFeel());
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Aplicacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
                 new Aplicacion().setVisible(true);
             }
         });
@@ -648,7 +757,9 @@ public class Aplicacion extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTree ArbolPlaneta;
     private javax.swing.JComboBox<Object> CajaCientificos;
+    private javax.swing.JProgressBar FuerzaBar;
     private javax.swing.JProgressBar ImpactBar;
+    private javax.swing.JLabel ImpactTime;
     private javax.swing.JLabel LabelDist;
     private javax.swing.JPopupMenu MenuPlaneta;
     private javax.swing.JTextField NameField;
@@ -660,6 +771,8 @@ public class Aplicacion extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
