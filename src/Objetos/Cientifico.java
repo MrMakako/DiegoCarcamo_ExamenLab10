@@ -33,17 +33,21 @@ public class Cientifico implements Serializable {
     
     public Planeta Find(String nombre){
     
+        for(Planeta p:Descubrimientos){
+            if(nombre.equals(p.getNombre())){
+            
+                return p;
+            }
+            
+        
+        }
         return null;
     }
     
     
     public void AddPlaneta(Planeta p){
         //Agregar valdiar que no exista
-        JTextField nombre= new JTextField();
-        
-        JOptionPane.showInternalMessageDialog(null, nombre, "Sea Creativo con el nombre", JOptionPane.PLAIN_MESSAGE);
-        
-        
+       Descubrimientos.add(p);
         
     
     

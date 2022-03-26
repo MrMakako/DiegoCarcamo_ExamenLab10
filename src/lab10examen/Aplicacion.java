@@ -9,11 +9,14 @@ import Objetos.Gaseoso;
 import Objetos.Planeta;
 import Objetos.Terrestre;
 import java.awt.List;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -46,7 +49,20 @@ public class Aplicacion extends javax.swing.JFrame {
 
         initComponents();
         FillComboBox();
+        
+        PublicBtn.setSelected(true);
+        try{
+             SelectedCTF=dat.find( CajaCientificos.getItemAt(0).toString());
 
+            CrearArbol(PlanetasPublicos);
+        
+        
+        }catch(Exception e){
+            JOptionPane.showConfirmDialog(null,"Agregue un cientifico");
+        
+        
+        }
+       
     }
     
     
@@ -55,6 +71,9 @@ public class Aplicacion extends javax.swing.JFrame {
         
             if(p.toString().equals(nombre))
                 return p;
+            
+            
+       
             
           
         
@@ -102,6 +121,9 @@ public class Aplicacion extends javax.swing.JFrame {
         model.setRoot(node);
 
         model.reload();
+        
+        
+        
 
     }
 
@@ -131,6 +153,8 @@ public class Aplicacion extends javax.swing.JFrame {
         SelecteP1 = new javax.swing.JTextField();
         SelectedP2 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        LabelDist = new javax.swing.JLabel();
 
         Planeta1.setText("Planeta1");
         Planeta1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -172,6 +196,11 @@ public class Aplicacion extends javax.swing.JFrame {
                 PublicBtnStateChanged(evt);
             }
         });
+        PublicBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PublicBtnMouseClicked(evt);
+            }
+        });
         PublicBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PublicBtnActionPerformed(evt);
@@ -182,6 +211,11 @@ public class Aplicacion extends javax.swing.JFrame {
         CajaCientificos.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 CajaCientificosItemStateChanged(evt);
+            }
+        });
+        CajaCientificos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CajaCientificosMouseClicked(evt);
             }
         });
         CajaCientificos.addActionListener(new java.awt.event.ActionListener() {
@@ -204,6 +238,11 @@ public class Aplicacion extends javax.swing.JFrame {
         });
 
         SelecteP1.setEditable(false);
+        SelecteP1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SelecteP1ActionPerformed(evt);
+            }
+        });
 
         SelectedP2.setEditable(false);
 
@@ -214,6 +253,8 @@ public class Aplicacion extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Distancia");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -221,8 +262,11 @@ public class Aplicacion extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PublicBtn)
-                    .addComponent(ImpactBar, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(PublicBtn)
+                            .addComponent(ImpactBar, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(50, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(37, 37, 37)
@@ -230,11 +274,16 @@ public class Aplicacion extends javax.swing.JFrame {
                             .addComponent(NameField, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(CajaCientificos, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(SelecteP1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-                                .addComponent(SelectedP2, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(50, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(SelecteP1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                                    .addComponent(SelectedP2, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(31, 31, 31)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(LabelDist, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -248,7 +297,10 @@ public class Aplicacion extends javax.swing.JFrame {
                         .addGap(0, 6, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(SelecteP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(SelecteP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(LabelDist, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(SelectedP2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31)
@@ -273,13 +325,12 @@ public class Aplicacion extends javax.swing.JFrame {
         
         FillComboBox();
         
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void PublicBtnStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_PublicBtnStateChanged
         // TODO add your handling code here:
-        CrearArbol(PlanetasPublicos);
-        
-        
 
     }//GEN-LAST:event_PublicBtnStateChanged
 
@@ -307,6 +358,7 @@ public class Aplicacion extends javax.swing.JFrame {
         
         CrearArbol(dat.find(CajaCientificos.getSelectedItem().toString()).getDescubrimientos());
         SelectedCTF=dat.find(CajaCientificos.getSelectedItem().toString());
+        System.out.println(CajaCientificos.getSelectedItem().toString());
         
         
     }//GEN-LAST:event_CajaCientificosItemStateChanged
@@ -327,12 +379,14 @@ public class Aplicacion extends javax.swing.JFrame {
        SelecteP1.setText( ArbolPlaneta.getSelectionPath().getLastPathComponent().toString());
         System.out.println("Selected P1");
         if(PublicBtn.isSelected()){
+            System.out.println("public sleceted");
+            
             Planeta1c=getPublicPlanet(SelecteP1.getText());
         
         }else{
               Planeta1c=SelectedCTF.Find(SelecteP1.getText());
             
-            
+              System.out.println("priv sleceted");
         }
         
     }//GEN-LAST:event_Planeta1ActionPerformed
@@ -342,9 +396,12 @@ public class Aplicacion extends javax.swing.JFrame {
        SelectedP2.setText( ArbolPlaneta.getSelectionPath().getLastPathComponent().toString());
         System.out.println("Selected P2");
          if(PublicBtn.isSelected()){
+             
+            System.out.println("public sleceted");
             Planeta2c=getPublicPlanet(SelectedP2.getText());
         
         }else{
+               System.out.println("priv sleceted");
              Planeta2c=SelectedCTF.Find(SelectedP2.getText());
              
              
@@ -354,9 +411,10 @@ public class Aplicacion extends javax.swing.JFrame {
     }//GEN-LAST:event_Planeta2ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        Planeta p1;
-        Planeta p2;
+
+        
+       
+        
         System.out.println("coliding");
         Colision colide= new Colision();
         colide.start();
@@ -371,7 +429,44 @@ public class Aplicacion extends javax.swing.JFrame {
 
     private void CajaCientificosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CajaCientificosActionPerformed
         // TODO add your handling code here:
+       
+        
+        
     }//GEN-LAST:event_CajaCientificosActionPerformed
+
+    private void PublicBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PublicBtnMouseClicked
+        // TODO add your handling code here:
+        if(PublicBtn.isSelected()){
+            
+            
+             CrearArbol(PlanetasPublicos);
+        
+        
+        }else{
+            
+            
+            CrearArbol(SelectedCTF.getDescubrimientos());
+        
+        }
+       
+        
+        
+
+    }//GEN-LAST:event_PublicBtnMouseClicked
+
+    private void CajaCientificosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CajaCientificosMouseClicked
+        // TODO add your handling code here:
+        
+        PublicBtn.setSelected(false);
+        
+        SelecteP1.setText("");
+        SelectedP2.setText("");
+        
+    }//GEN-LAST:event_CajaCientificosMouseClicked
+
+    private void SelecteP1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelecteP1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SelecteP1ActionPerformed
     
     
     
@@ -395,19 +490,42 @@ public class Aplicacion extends javax.swing.JFrame {
     class Colision extends Thread{
         public void run(){
             
+            boolean crear=false;
+            ImpactBar.setValue(0);
+            
+            
+            int dist= 0;
+            
             Cientifico c=dat.find( CajaCientificos.getSelectedItem().toString());
             
+              try{  
+                  
+                   dist=(int) distancia(Planeta1c.getX(),Planeta1c.getY(),Planeta2c.getX(),Planeta2c.getY());
+                LabelDist.setText(""+dist);
+              
+              }catch(Exception e){
+                 
+                  JOptionPane.showMessageDialog(null,"Elija un planeta porgfavor");
+                  
+                  stop();
+                
+             
             
             
-            ImpactBar.setMaximum((int) distancia(Planeta1c.getX(),Planeta1c.getY(),Planeta2c.getX(),Planeta2c.getY()));
+            }
+           
+            
+            
+            ImpactBar.setMaximum(dist);
             System.out.println(ImpactBar.getMaximum());
-            try {
+          
+            
+            while(ImpactBar.getValue()<ImpactBar.getMaximum()){
+                  try {
                 sleep(5);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Aplicacion.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            while(ImpactBar.getValue()<ImpactBar.getMaximum()){
                 ImpactBar.setValue(ImpactBar.getValue()+1);
             
             
@@ -420,6 +538,22 @@ public class Aplicacion extends javax.swing.JFrame {
                 String nombrePlaneta="";
                 
                 
+                while(!crear){
+                    System.out.println("Pidierno nombre");
+                    JTextField field= new JTextField();
+                    JOptionPane.showConfirmDialog(rootPane, field, nombrePlaneta,JOptionPane.PLAIN_MESSAGE);
+                    
+                    if((SelectedCTF.Find(field.getText())==null)&&(!field.getText().equals(""))){
+                        crear=true;
+                        nombrePlaneta=field.getText();
+                       
+                    
+                    }
+                    
+                    
+                
+                }
+                
                 double x=(Planeta1c.getX()+Planeta2c.getX())/2;
                 double y=(Planeta1c.getY()+Planeta2c.getY())/2;
                 
@@ -431,6 +565,9 @@ public class Aplicacion extends javax.swing.JFrame {
                 
                 if(Planeta1c instanceof Terrestre){
                      SelectedCTF.AddPlaneta(new Terrestre(nombrePlaneta, size, Peso, x, y));
+                     
+                     System.out.println(SelectedCTF.toString());
+                     System.out.println(CajaCientificos.getSelectedItem().toString());
                 
                 
                 }else{
@@ -438,6 +575,13 @@ public class Aplicacion extends javax.swing.JFrame {
                 
                 
                 }
+                
+                try {
+                    dat.Guardar();
+                } catch (IOException ex) {
+                    Logger.getLogger(Aplicacion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 
                
                 
@@ -449,6 +593,8 @@ public class Aplicacion extends javax.swing.JFrame {
             
             
             }
+            
+            LabelDist.setText("0");
             
             
             
@@ -503,6 +649,7 @@ public class Aplicacion extends javax.swing.JFrame {
     private javax.swing.JTree ArbolPlaneta;
     private javax.swing.JComboBox<Object> CajaCientificos;
     private javax.swing.JProgressBar ImpactBar;
+    private javax.swing.JLabel LabelDist;
     private javax.swing.JPopupMenu MenuPlaneta;
     private javax.swing.JTextField NameField;
     private javax.swing.JMenuItem Planeta1;
@@ -512,6 +659,7 @@ public class Aplicacion extends javax.swing.JFrame {
     private javax.swing.JTextField SelectedP2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
